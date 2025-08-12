@@ -68,12 +68,25 @@ public class WebFluxController {
 
     @Bean
     public RouterFunction<ServerResponse> routeUser() {
-        return RouterFunctions.route().GET("/users",request -> {
+        return RouterFunctions.route().GET("/users", request -> {
             String username = request.queryParam("username").orElse("");
             Mono<User> user = userService.findByUsername(username);
-            return ok().body(user,User.class);
+            return ok().body(user, User.class);
         }).build();
     }
 
+    @GetMapping("/getTestXYByDay")
+    public Flux<TestXY> getTestXYByDay(@Param("day") String day) {
+        return testXYService.getTestXYByDay(day);
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> routerTestXY() {
+        return RouterFunctions.route().GET("/allTestXYByDay", request -> {
+            String day = request.queryParam("day").orElse("");
+            Flux<TestXY> xyFlux = testXYService.getTestXYByDay(day);
+            return ok().body(xyFlux, TestXY.class);
+        }).build();
+    }
 
 }
