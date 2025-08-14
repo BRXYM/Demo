@@ -2,11 +2,14 @@ package com.example.springwebflux20250811001.config;
 
 import com.example.springwebflux20250811001.entity.TestXY;
 import com.example.springwebflux20250811001.service.MqttService;
+import com.example.springwebflux20250811001.service.TaosService;
 import com.example.springwebflux20250811001.service.TestXYService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
 import org.eclipse.paho.client.mqttv3.*;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 @Component
 public class MqttClientConfig {
@@ -20,6 +23,9 @@ public class MqttClientConfig {
 
     @Resource
     TestXYService testXYService;
+
+    @Resource
+    TaosService taosService;
 
     public MqttClient createMqttClient() throws MqttException {
         mqttClient = new MqttClient(brokerUrl, clientId);
@@ -53,7 +59,10 @@ public class MqttClientConfig {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                testXYService.saveMongoDB(topic, message).subscribe();
+                String payload = new String(message.getPayload());
+                System.out.println(payload);
+                taosService.saveTDengine(topic,message).subscribe();
+//                testXYService.saveMongoDB(topic, message).subscribe();
 //                String payload = new String(message.getPayload());
 //                int qos = message.getQos();
 //                boolean retained = message.isRetained();

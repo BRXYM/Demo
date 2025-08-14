@@ -8,11 +8,11 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class UserService {
-    @Resource
-    UserRepository userRepository;
-
-    public Mono<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+//    @Resource
+//    UserRepository userRepository;
+//
+//    public Mono<User> findByUsername(String username) {
+//        return userRepository.findByUsername(username);
+//    }
 
 }

@@ -5,7 +5,7 @@ import com.example.springwebflux20250811001.entity.TestXY;
 import com.example.springwebflux20250811001.entity.User;
 import com.example.springwebflux20250811001.repository.TestXYRepository;
 import com.example.springwebflux20250811001.service.TestXYService;
-import com.example.springwebflux20250811001.service.UserService;
+//import com.example.springwebflux20250811001.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
@@ -30,14 +30,13 @@ public class WebFluxController {
     @Resource
     private TestXYService testXYService;
 
-    @Resource
-    private UserService userService;
+//    @Resource
+//    private UserService userService;
 
     @GetMapping("/testMono")
     public Mono<String> greeting() {
         return Mono.just("Hello World");
     }
-
     @Bean
     public RouterFunction<ServerResponse> routes() {
         return RouterFunctions.route().GET("/webFlux", request ->
@@ -61,19 +60,19 @@ public class WebFluxController {
         return testXYService.getAllTestXY();
     }
 
-    @GetMapping("/allUsers")
-    public Mono<User> getAllUsers(@Param("username") String username) {
-        return userService.findByUsername(username);
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> routeUser() {
-        return RouterFunctions.route().GET("/users", request -> {
-            String username = request.queryParam("username").orElse("");
-            Mono<User> user = userService.findByUsername(username);
-            return ok().body(user, User.class);
-        }).build();
-    }
+//    @GetMapping("/allUsers")
+//    public Mono<User> getAllUsers(@Param("username") String username) {
+//        return userService.findByUsername(username);
+//    }
+//
+//    @Bean
+//    public RouterFunction<ServerResponse> routeUser() {
+//        return RouterFunctions.route().GET("/users", request -> {
+//            String username = request.queryParam("username").orElse("");
+//            Mono<User> user = userService.findByUsername(username);
+//            return ok().body(user, User.class);
+//        }).build();
+//    }
 
     @GetMapping("/getTestXYByDay")
     public Flux<TestXY> getTestXYByDay(@Param("day") String day) {
